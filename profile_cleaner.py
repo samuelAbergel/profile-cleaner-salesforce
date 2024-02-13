@@ -6,11 +6,8 @@ import os
 def namespace(element):
   return re.match(r'\{.*\}', element.tag).group(0)
 
-def main():
-  if len(sys.argv) != 2:
-    return None
-
-  tree = ET.parse(sys.argv[1])
+def profiles_cleaner(profile_file):
+  tree = ET.parse(profile_file)
   root = tree.getroot()
   ns = namespace(root)
   ET.register_namespace('', ns[1:-1])
@@ -126,8 +123,8 @@ def main():
     elif not existing_metadata_in_repository(layoutMetadata, layoutText.text, 'layout'):
       root.remove(layout)
 
-  tree.write(sys.argv[1], encoding='utf-8', xml_declaration=True)
-  print(sys.argv[1])
+  tree.write(profile_file, encoding='utf-8', xml_declaration=True)
+  print(profile_file)
 
 def find_metadata_path_folder(common_path, sfoa_path, metadata_name):
     metadata_paths = []
@@ -147,4 +144,9 @@ def existing_metadata_in_repository(possible_paths, metadata_name, end_file_path
 if __name__ == '__main__':
   common_path = 'common-app'
   sfoa_path = 'sfoa-app'
-  main()
+  profile_path = 'PROFILES\\profilesAll'
+  for root, dirs, files in os.walk(profile_path):
+    for file in files:
+      if file.endswith('.profile-meta.xml'): 
+        profile_file_path = os.path.join(root, file)
+        profiles_cleaner(profile_file_path) 
