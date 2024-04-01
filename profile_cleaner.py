@@ -11,7 +11,7 @@ def profiles_cleaner(profile_file):
   root = tree.getroot()
   ns = namespace(root)
   ET.register_namespace('', ns[1:-1])
-  packages = ('AAKCS', 'Field_Trip', 'ELEE', 'archanaanndev', 'bcmanhelp', 'fsLtng', 'sortablegrid', 'due', 'fluent_commerce', 'alcmeon', 'Alcmeon', 'Twilio', 'TwilioSF', 'OdigoSms', 'Odigo', 'orgcheck', 'analyticsengine', 'Profile2PermSet', 'Jigsaw', 'DuplicateRecordItem', 'DuplicateRecordSet', 'LiveAgentSession', 'LiveChatTranscript', 'LiveChatVisitor', 'Location', 'MessagingEndUser', 'MessagingSession', 'ServiceResource', 'SocialPersona', 'SocialPost', 'p0pFD', 'FlowOrchestrationInstance', 'FlowOrchestrationWorkIte', 'MessagingChannel', 'SessionHijackingEventStore', 'Field_Trip', 'DidUEnjo')
+  packages = ('AAKCS', 'Field_Trip', 'ELEE', 'archanaanndev', 'bcmanhelp', 'fsLtng', 'sortablegrid', 'due', 'fluent_commerce', 'alcmeon', 'Alcmeon', 'Twilio', 'TwilioSF', 'OdigoSms', 'Odigo', 'orgcheck', 'analyticsengine', 'Profile2PermSet', 'Jigsaw', 'DuplicateRecordItem', 'DuplicateRecordSet', 'LiveAgentSession', 'LiveChatTranscript', 'LiveChatVisitor', 'Location', 'MessagingEndUser', 'MessagingSession', 'ServiceResource', 'SocialPersona', 'SocialPost', 'p0pFD', 'FlowOrchestrationInstance', 'FlowOrchestrationWorkIte', 'MessagingChannel', 'SessionHijackingEventStore', 'Field_Trip', 'DidUEnjo','cnx','afl','CMTD')
   users_permission_HS = ('CanAccessCE', 'ChatterFileLink', 'DistributeFromPersWksp', 'SendExternalEmailAvailable', 'ViewTrustMeasures', 'ViewDataLeakageEvents', 'AIViewInsightObjects', 'ApproveContract', 'AssignUserToSkill', 'ViewPlatformEvents', 'Packaging2PromoteVersion', 'AccessContentBuilder', 'ManageExchangeConfig')
 
   removedObjects = []
