@@ -11,7 +11,7 @@ def profiles_cleaner(profile_file):
   root = tree.getroot()
   ns = namespace(root)
   ET.register_namespace('', ns[1:-1])
-  packages = ('AAKCS', 'Field_Trip', 'ELEE', 'archanaanndev', 'bcmanhelp', 'fsLtng', 'sortablegrid', 'due', 'fluent_commerce', 'alcmeon', 'Alcmeon', 'Twilio', 'TwilioSF', 'OdigoSms', 'Odigo', 'orgcheck', 'analyticsengine', 'Profile2PermSet', 'Jigsaw', 'DuplicateRecordItem', 'DuplicateRecordSet', 'LiveAgentSession', 'LiveChatTranscript', 'LiveChatVisitor', 'Location', 'MessagingEndUser', 'MessagingSession', 'ServiceResource', 'SocialPersona', 'SocialPost', 'p0pFD', 'FlowOrchestrationInstance', 'FlowOrchestrationWorkIte', 'MessagingChannel', 'SessionHijackingEventStore', 'Field_Trip', 'DidUEnjo','cnx','afl','CMTD')
+  packages = ('AAKCS', 'Field_Trip', 'ELEE', 'archanaanndev', 'bcmanhelp', 'fsLtng', 'sortablegrid', 'due', 'fluent_commerce', 'alcmeon', 'Alcmeon', 'Twilio', 'TwilioSF', 'OdigoSms', 'Odigo', 'orgcheck', 'analyticsengine', 'Profile2PermSet', 'Jigsaw', 'DuplicateRecordItem', 'DuplicateRecordSet', 'LiveAgentSession', 'LiveChatTranscript', 'LiveChatVisitor', 'Location', 'MessagingEndUser', 'MessagingSession', 'ServiceResource', 'SocialPersona', 'SocialPost', 'p0pFD', 'FlowOrchestrationInstance', 'FlowOrchestrationWorkIte', 'MessagingChannel', 'SessionHijackingEventStore', 'Field_Trip', 'DidUEnjo', 'et4ae5', 'OSF')
   users_permission_HS = ('CanAccessCE', 'ChatterFileLink', 'DistributeFromPersWksp', 'SendExternalEmailAvailable', 'ViewTrustMeasures', 'ViewDataLeakageEvents', 'AIViewInsightObjects', 'ApproveContract', 'AssignUserToSkill', 'ViewPlatformEvents', 'Packaging2PromoteVersion', 'AccessContentBuilder', 'ManageExchangeConfig')
 
   removedObjects = []
@@ -21,7 +21,7 @@ def profiles_cleaner(profile_file):
   for application in root.findall(ns + 'applicationVisibilities'):
     visible = application.find(ns + 'visible')
     applicationText = application.find(ns + 'application')
-    if (visible.text == 'false') or (applicationText is not None and any(package in applicationText.text for package in packages)):
+    if (visible.text == 'false') or ((applicationText is not None and any(package in applicationText.text for package in packages)) and clean_package == True):
         root.remove(application)
     elif not existing_metadata_in_repository(aplicationPath, applicationText.text, 'app'):
         root.remove(application)
@@ -30,7 +30,7 @@ def profiles_cleaner(profile_file):
   for apexClass in root.findall(ns + 'classAccesses'):
     enabled = apexClass.find(ns + 'enabled')
     apexClassText = apexClass.find(ns + 'apexClass')
-    if (enabled.text == 'false') or (apexClassText is not None and any(package in apexClassText.text for package in packages)):
+    if (enabled.text == 'false') or ((apexClassText is not None and any(package in apexClassText.text for package in packages)) and clean_package == True):
       root.remove(apexClass)
     elif not existing_metadata_in_repository(classesPath, apexClassText.text, 'cls'):
         root.remove(apexClass)
@@ -39,7 +39,7 @@ def profiles_cleaner(profile_file):
   for customMetadata in root.findall(ns + 'customMetadataTypeAccesses'):
     enabled = customMetadata.find(ns + 'enabled')
     customMetadataText = customMetadata.find(ns + 'name')
-    if (enabled.text == 'false') or (customMetadataText is not None and any(package in customMetadataText.text for package in packages)):
+    if (enabled.text == 'false') or ((customMetadataText is not None and any(package in customMetadataText.text for package in packages)) and clean_package == True):
         root.remove(customMetadata)
     elif not existing_metadata_in_repository(customMetadataList, customMetadataText.text, 'object'):
         root.remove(customMetadata)
@@ -47,7 +47,7 @@ def profiles_cleaner(profile_file):
   for customSetting in root.findall(ns + 'customSettingAccesses'):
     enabled = customSetting.find(ns + 'enabled')
     customSettingText = customSetting.find(ns + 'name')
-    if (enabled.text == 'false') or (customSettingText is not None and any(package in customSettingText.text for package in packages)):
+    if (enabled.text == 'false') or ((customSettingText is not None and any(package in customSettingText.text for package in packages)) and clean_package == True):
         root.remove(customSetting)
 
   for externalDataSource in root.findall(ns + 'externalDataSourceAccesses'):
@@ -58,7 +58,7 @@ def profiles_cleaner(profile_file):
   for userPermission in root.findall(ns + 'userPermissions'):
     enabled = userPermission.find(ns + 'enabled')
     userPermissionNameText = userPermission.find(ns + 'name')
-    if (enabled.text == 'false') or (userPermissionNameText is not None and any(user_permission_HS in userPermissionNameText.text for user_permission_HS in users_permission_HS)):
+    if (enabled.text == 'false') or ((userPermissionNameText is not None and any(user_permission_HS in userPermissionNameText.text for user_permission_HS in users_permission_HS)) and clean_package == True):
       root.remove(userPermission)
 
   fieldsMetadata = find_metadata_path_folder(common_path, sfoa_path, 'objects')
@@ -66,7 +66,7 @@ def profiles_cleaner(profile_file):
     readable = field.find(ns + 'readable')
     fieldText = field.find(ns + 'field')
     fieldTextAfterDot = fieldText.text.split('.', 1)[1] if '.' in fieldText.text else None
-    if (readable.text == 'false') or (fieldText is not None and any(package in fieldText.text for package in packages)):
+    if (readable.text == 'false') or ((fieldText is not None and any(package in fieldText.text for package in packages)) and clean_package == True):
       root.remove(field)
     elif not existing_metadata_in_repository(fieldsMetadata, fieldText.text, 'field'):
         root.remove(field)
@@ -75,7 +75,7 @@ def profiles_cleaner(profile_file):
   for flow in root.findall(ns + 'flowAccesses'):
     enabled = flow.find(ns + 'enabled')
     flowText = field.find(ns + 'flow')
-    if (enabled.text == 'false') or (flowText is not None and any(package in flowText.text for package in packages)):
+    if (enabled.text == 'false') or ((flowText is not None and any(package in flowText.text for package in packages)) and clean_package == True):
         root.remove(flow)
     elif not existing_metadata_in_repository(flowMetadata, flowText.text, 'flow'):
         root.remove(flow)
@@ -84,7 +84,7 @@ def profiles_cleaner(profile_file):
   for object in root.findall(ns + 'objectPermissions'):
     allowRead = object.find(ns + 'allowRead')
     objectText = object.find(ns + 'object')
-    if (allowRead.text == 'false') or (objectText is not None and any(package in objectText.text for package in packages)):
+    if (allowRead.text == 'false') or ((objectText is not None and any(package in objectText.text for package in packages)) and clean_package == True):
       root.remove(object)
       removedObjects.append(object.find(ns + 'object').text)
     elif not existing_metadata_in_repository(objectMetadata, objectText.text, 'object'):
@@ -95,7 +95,7 @@ def profiles_cleaner(profile_file):
   for apexPage in root.findall(ns + 'pageAccesses'):
     enabled = apexPage.find(ns + 'enabled')
     apexPageText = apexPage.find(ns + 'apexPage')
-    if (enabled.text == 'false') or (apexPageText is not None and any(package in apexPageText.text for package in packages)):
+    if (enabled.text == 'false') or ((apexPageText is not None and any(package in apexPageText.text for package in packages)) and clean_package == True):
       root.remove(apexPage)
     elif not existing_metadata_in_repository(pageMetadata, apexPageText.text, 'page'):
       root.remove(apexPage)
@@ -105,7 +105,7 @@ def profiles_cleaner(profile_file):
     visible = recordType.find(ns + 'visible')
     recordTypeText = recordType.find(ns + 'recordType')
     recordTypeAfterDot = recordTypeText.text.split('.', 1)[1] if '.' in recordTypeText.text else None
-    if (visible.text == 'false') or (recordTypeText is not None and any(package in recordTypeText.text for package in packages)):
+    if (visible.text == 'false') or ((recordTypeText is not None and any(package in recordTypeText.text for package in packages)) and clean_package == True):
       root.remove(recordType)
       removedRecordTypes.append(recordType.find(ns + 'recordType').text)
     elif not existing_metadata_in_repository(recordTypeMetadata, recordTypeAfterDot, 'recordType'):
@@ -116,7 +116,7 @@ def profiles_cleaner(profile_file):
   for tab in root.findall(ns + 'tabVisibilities'):
     visibility = tab.find(ns + 'visibility')
     tabText = tab.find(ns + 'tab')
-    if (visibility.text == 'Hidden') or (tabText is not None and any(package in tabText.text for package in packages)):
+    if (visibility.text == 'Hidden') or ((tabText is not None and any(package in tabText.text for package in packages)) and clean_package == True):
       root.remove(tab)
     elif not existing_metadata_in_repository(tabMetadata, tabText.text, 'tab'):
       root.remove(tab)
@@ -129,7 +129,7 @@ def profiles_cleaner(profile_file):
         root.remove(layout)
     elif (recordType is not None and recordType.text in removedRecordTypes):
         root.remove(layout)
-    elif layoutText is not None and any(package in layoutText.text for package in packages):
+    elif layoutText is not None and any(package in layoutText.text for package in packages) and clean_package == True:
         root.remove(layout)
     elif not existing_metadata_in_repository(layoutMetadata, layoutText.text, 'layout'):
       root.remove(layout)
@@ -166,9 +166,11 @@ def existing_metadata_in_repository(possible_paths, metadata_name, end_file_path
     return any(os.path.exists(path + '\\' + metadata_name + '.' + end_file_path +  '-meta.xml') for path in possible_paths)
 
 if __name__ == '__main__':
-  common_path = 'common-app'
-  sfoa_path = 'sfoa-app'
-  profile_path = 'PROFILES\\profilesAll'
+  print('This code is there to clean the profiles based on the metadata included in your repository: \n')
+  common_path = input("Enter the folder path COMMON : ")
+  sfoa_path = input("Enter the folder path SFOA : ")
+  profile_path = input("Enter the folder path Profile : ")
+  clean_package = input("Do you want to clean the package metadata ? (True/False) : ")
   for root, dirs, files in os.walk(profile_path):
     for file in files:
       if file.endswith('.profile-meta.xml'): 
